@@ -1,19 +1,26 @@
 (function () {
-  'use strict';
+ // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.14.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.14.0/firebase-analytics.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
 
-  // Inicjacja Firebase
-  var config = {
-    apiKey: "AIzaSyCn-1QIqWrrejw0ajXz8Zk7KngqYadaUNQ",
-    authDomain: "test-1433d.firebaseapp.com",
-    databaseURL: "https://test-1433d.firebaseio.com",
-    projectId: "test-1433d",
-    storageBucket: "test-1433d.appspot.com",
-    messagingSenderId: "655366613901"
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyAKK4cB3o8gU-_Bn-90QiO4OjgSx4p3Sk4",
+    authDomain: "chatapp-b83ec.firebaseapp.com",
+    databaseURL: "https://chatapp-b83ec-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "chatapp-b83ec",
+    storageBucket: "chatapp-b83ec.appspot.com",
+    messagingSenderId: "637838135173",
+    appId: "1:637838135173:web:97f8a84c34aaa62a2d3eec",
+    measurementId: "G-CHYTCMPG7F"
   };
-  firebase.initializeApp(config);
 
-  var app = angular.module('chat', ['firebase', 'ngCookies']);
-  var chat_container = document.getElementById('chat-messages');
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
 
   // Dostęp do bazy danych
   app.factory('firebaseSrv', ['$firebaseArray', function($firebaseArray) {
