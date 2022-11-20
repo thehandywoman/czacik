@@ -1,0 +1,74 @@
+<!doctype html>
+<html>
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>Czat Angular + Firebase</title>
+    <link rel="stylesheet" href="styles/main.css">
+  </head>
+  <body>
+<section ng-app="chat" class="chat">
+   <div ng-controller="chatCtrl">
+      <div class="chat-view" ng-show="current_user.online"> 
+<div class="chat-messages" id="chat-messages">
+  <!-- Lista wiadomości --> 
+  <div ng-repeat="message in messages | orderBy: 'created_at'" ng-class="{'item-message-highlight':message.user_uid==current_user.uid}" class="item-message">
+    <p class="item-message__user">
+      <span>{{ message.user_nickname }}</span>
+      <time>{{ format_date(message.created_at) }}</time>
+    </p>
+    <p class="item-message__text"><span>{{ message.text }}</span></p>
+  </div>
+</div>         
+
+<!-- Pisanie nowej wiadomości -->
+<div ng-controller="inputCtrl" class="chat-input">
+  <form name="messageForm" ng-submit="sendMessage()" autocomplete="off" novalidate>
+    <input type="text" ng-model="messageForm.text" id="chat-input" placeholder="Co Ci chodzi po głowie?" required>
+    <button type="submit" class="btn btn-green">Wyślij</button>
+  </form>
+</div>
+<div class="chat-users">
+  <div class="chat-users__current">
+    <!-- Aktywny użytkownik -->
+    <h2>{{ current_user.nickname }}</h2>
+    <p class="status status-on">Online</p>
+  </div>
+  <div class="chat-users__list">
+    <!-- Lista użytkowników -->
+    <div ng-repeat="user in users | orderBy: ['-online','-created_at']" ng-show="user.$id!=current_user.uid" class="item-user">
+      <p>{{ user.nickname }}</p>
+      <p ng-show="user.online" class="status status-on">Online</p>
+      <p ng-show="!user.online" class="status">Offline</p>
+    </div>
+  </div>
+</div>
+
+      </div>
+<div ng-controller="loginCtrl" ng-show="!current_user.online" class="chat-view login-form">  
+   <h1>Czat Demo</h1>
+   <h2>Angular + Firebase</h2>
+   <form name="loginForm" ng-submit="loginUser()" novalidate>
+      <div class="login-form__frame">
+         <h3 ng-show="!loading">Zaloguj się</h3>
+         <h3 ng-show="loading">Czekaj...</h3>
+         <div class="row" ng-class="{'loading':loading}">
+            <input type="text" ng-model="loginForm.nickname" placeholder="Twój nick ..." required>
+            <button type="submit" class="btn btn-green">Wejdź</button>
+         </div>
+      </div>
+      <p>Ten czat wykorzystuje pliki cookies.<br>Wchodząc dalej, wyrażasz na to zgodę.</p>
+   </form>
+</div>
+
+   </div>
+</section>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.6.6/firebase.js"></script>
+    <script src="https://cdn.firebase.com/libs/angularfire/2.3.0/angularfire.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular-cookies.min.js"></script>    
+    <script src="scripts/app.js"></script>
+  </body>
+</html>
